@@ -3,7 +3,8 @@ RNN character level
 
 Some interesting text generated with the provided weights
 
-``` Here thy new Shakespear
+``` 
+Here thy new Shakespear
   
  nave wande of nobre
 Whar have not he whrebout.
@@ -55,4 +56,5 @@ And they peakish's of let manome Com so heeny but let, rats more his.
 MENENIUS:
 This
 
------ ```
+----- 
+
