@@ -31,7 +31,7 @@ chars, data_size, vocab_size, char_to_ix, ix_to_char = a["chars"].tolist(), a["d
 
 inputs = char_to_ix[data[-1]]
 hprev = np.zeros((hidden_size,1))   # RNN memory is null
-temperature = 1
+temperature = 0.9
 alpha = 1/temperature
 
 def charpred(h, inputs):
@@ -49,7 +49,7 @@ def charpred(h, inputs):
     return h, idx
 
 
-seq_length = 500
+seq_length = 1000
 i = 0
 text = []
 
