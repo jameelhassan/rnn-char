@@ -6,7 +6,7 @@ Trained weights are used to generate Shakespeare-like text with edits to min-cha
 import numpy as np
 
 # data = open('shakespeare_train.txt', 'r').read()
-data = 'Thou shall not see thy enemy nor thee'
+data = 'thou shall not see thy enemy nor thee'
 # chars = list(set(data))
 # data_size, vocab_size = len(data), len(chars)
 # char2ix = {ch:idx for idx, ch in enumerate(chars)}
@@ -29,9 +29,9 @@ mbh, mby = a["mbh"], a["mby"]
 chars, data_size, vocab_size, char_to_ix, ix_to_char = a["chars"].tolist(), a["data_size"].tolist(), \
                                                        a["vocab_size"].tolist(), a["char_to_ix"].tolist(), a["ix_to_char"].tolist()
 
-inputs = char_to_ix[data[-1]]
+inputs = char_to_ix[data[0]]
 hprev = np.zeros((hidden_size,1))   # RNN memory is null
-temperature = 0.6
+temperature = 0.7
 alpha = 1/temperature
 
 def charpred(h, inputs):
@@ -49,15 +49,31 @@ def charpred(h, inputs):
     return h, idx
 
 
+def updatehidden(string, hprev):
+    """
+    :param string: input string
+    :return: hidden state at the end of the string fed into RNN
+    """
+    length = len(string)
+    count = 0
+    h_state = hprev
+    while count < length:
+        charin = char_to_ix[string[count]]
+        h_state, _ = charpred(h_state, charin)
+        count += 1
+
+    return h_state
+
+
 seq_length = 1500
 i = 0
 text = []
+h = updatehidden(data, hprev)
 
 while i <= seq_length:
-    hprev, inputs = charpred(hprev, inputs)
+    h, inputs = charpred(h, inputs)
     text.append(ix_to_char[inputs])
     i += 1
 
 txtout = ''.join(text)
 print("Here thy new Shakespear\n ", txtout, "\n----------")
-
