@@ -4,9 +4,12 @@ Trained weights are used to generate Shakespeare-like text with edits to min-cha
 """
 
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.pyplot as figure
 
 # data = open('shakespeare_train.txt', 'r').read()
-data = 'thou shall not see thy enemy nor thee'
+# data = 'thou shall not see thy enemy nor thee'
+data = "First Citizen:\nLet us kill him, and we'll have corn at our own price.\nIs't a verdict?"
 # chars = list(set(data))
 # data_size, vocab_size = len(data), len(chars)
 # char2ix = {ch:idx for idx, ch in enumerate(chars)}
@@ -14,7 +17,6 @@ data = 'thou shall not see thy enemy nor thee'
 
 # RNN hyperparams
 hidden_size = 250   # hidden neurons
-seq_length = 25     # Sequence of text unrolled into RNN
 learning_rate = 1e-1
 
 # Model parameters : Loaded from provided np file
@@ -64,16 +66,36 @@ def updatehidden(string, hprev):
 
     return h_state
 
+def neuronvisual(text, hiddenstates):
+    """
+    :param text: list of input texts to the RNN model
+    :param hiddenstates: Corresponding hidden states for the character
+    :return: plot of neurons firing for each character
+    """
+    hiddenarr = np.array(hiddenstates)
+    fig, ax = plt.subplots(1,1,figsize=(20,8))
+    ax.matshow(hiddenarr, cmap = plt.get_cmap("Reds"), aspect="auto")
+    ax.set_yticks(np.arange(len(text)))
+    ax.set_yticklabels(text)
+    plt.yticks(fontsize = 7, rotation = -30)
+    plt.show()
 
-seq_length = 1500
+
+seq_length = 150
 i = 0
 text = []
+hiddenlist = []
 h = updatehidden(data, hprev)
+inputs = char_to_ix[data[-1]]   # Setting input as last char of input string
 
 while i <= seq_length:
+    # Perform RNN prediction and append to list containing text
     h, inputs = charpred(h, inputs)
     text.append(ix_to_char[inputs])
+    hiddenlist.append(h)
     i += 1
 
 txtout = ''.join(text)
 print("Here thy new Shakespear\n ", txtout, "\n----------")
+
+neuronvisual(text, hiddenlist)
