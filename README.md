@@ -31,7 +31,7 @@ The RNN remembers characters. We can see that Volumnia responds after Sicinius. 
 
 ## Visualizing neuron firing
 
-![alt text](https://github.com/jameelhassan/rnn-char/tree/main/figures/neuronfiring.png)
+![alt text](https://github.com/jameelhassan/rnn-char/tree/main/figures/neuronfiring.png "sample neuron firing")
 
 
 
