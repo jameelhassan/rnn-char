@@ -1,5 +1,6 @@
-# rnn-char
-RNN character level
+# RNN character level
+
+This is a character level RNN model using the implementation by Andrej Karpathy [blog](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
 
 Some text generated with the provided weights
 starter string was from a Shakespeare text 
