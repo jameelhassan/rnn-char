@@ -48,7 +48,7 @@ The above image shows a specific neuron that is firing at the start of each word
 
 
 ![alt text](figures/43.png "Tracking names")
-This neuron is shown to fire when a name has encountered. Secifically, it was noted that this neuron is attentive to names in block capitals, usually to show the character and their lines.
+This neuron is shown to fire when a name has encountered. Specifically, it was noted that this neuron is attentive to names in block capitals, usually to show the character and their lines.
 
 
 ![alt text](figures/73.png "inside a word")
