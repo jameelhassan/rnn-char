@@ -1,10 +1,12 @@
 # RNN character level
 
-This is a character level RNN model using the implementation by Andrej Karpathy [blog](http://karpathy.github.io/2015/05/21/rnn-effectiveness/)
+## Overview
 
-Some text generated with the provided weights
-starter string was from a Shakespeare text 
-<i>"First Citizen:\nLet us kill him, and we'll have corn at our own price.\nIs't a verdict?"</i>
+This is a character level RNN model using the implementation by Andrej Karpathy [article](http://karpathy.github.io/2015/05/21/rnn-effectiveness/). The works done here are inspired by the [assignment](http://www.cs.toronto.edu/~guerzhoy/tmp/understand-rnn/handout/index.html) at University of Toronto.
+
+Some text generated with the provided weights is shown below-
+the starter string used was from a Shakespeare text 
+*"First Citizen:\nLet us kill him, and we'll have corn at our own price.\nIs't a verdict?"*
 
 ```
 oe seee he attete have gear, of seed have to lith the must the whise ky be you.
@@ -25,14 +27,31 @@ Hath chile bace be let is so have wister for so so you shald seel so no shele th
 
 ----- 
 ```
-
 ### Some interesting things to note:
 
-The RNN remembers characters. We can see that Volumnia responds after Sicinius. The model also has learnt to end the sentences with periods, exclamation or question marks. It also uss commas and colons quite well. However the model is not trained welll enough to generate good english text. 
+The RNN remembers characters. We can see that Volumnia responds after Sicinius. The model also has learnt to end the sentences with periods, exclamation or question marks. It also uses commas and colons quite well. However the model is not trained welll enough to generate proper sentence structures. 
+
+## Code
+`shakespeare.py` will generate a sample text and also present a visualization of the neurons firing. 
+`min-char-rnn.py` is the implementation by Andrej Karpathy of a 100 line character level RNN. 
+
 
 ## Visualizing neuron firing
 
+Below is the complete visualization of all neurons for 150 characters. There are 250 neurons where each neuron is depicted by a column.
 ![alt text](figures/neuronfiring.png "sample neuron firing")
+
+Few interesting neurons that track specific characteristics are shown below. The following visualizations depict the output of the `tanh` activation where Blue is -1 and Red is +1.
+
+![alt text](figures/159.png "Beginning of word")
+The above image shows a specific neuron that is firing at the start of each word. 
+
+![alt text](figures/43.png "Tracking names")
+This neuron is shown to fire when a name has encountered. Secifically, it was noted that this neuron is attentive to names in block capitals, usually to show the character and their lines.
+
+![alt text](figures/73.png "inside a word")
+This neuron also seems to be activated when it is inside a word. 
+
 
 
 
