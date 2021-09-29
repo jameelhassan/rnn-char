@@ -30,7 +30,7 @@ Hath chile bace be let is so have wister for so so you shald seel so no shele th
 The RNN remembers characters. We can see that Volumnia responds after Sicinius. The model also has learnt to end the sentences with periods, exclamation or question marks. It also uss commas and colons quite well. However the model is not trained welll enough to generate good english text. 
 
 ## Visualizing neuron firing
-
+159 checks words
 ![alt text](figures/neuronfiring.png "sample neuron firing")
 
 

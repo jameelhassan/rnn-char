@@ -2,3 +2,5 @@
 .idea
 assignment.png
 char-rnn-snapshot.npz
+hiddenlist.npy
+file.txt

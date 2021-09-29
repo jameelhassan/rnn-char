@@ -33,7 +33,7 @@ chars, data_size, vocab_size, char_to_ix, ix_to_char = a["chars"].tolist(), a["d
 
 inputs = char_to_ix[data[0]]
 hprev = np.zeros((hidden_size,1))   # RNN memory is null
-temperature = 0.7
+temperature = 0.8
 alpha = 1/temperature
 
 def charpred(h, inputs):
@@ -66,36 +66,60 @@ def updatehidden(string, hprev):
 
     return h_state
 
-def neuronvisual(text, hiddenstates):
+def neuronvisual(text, hiddenstates, neuronid):
     """
     :param text: list of input texts to the RNN model
     :param hiddenstates: Corresponding hidden states for the character
     :return: plot of neurons firing for each character
     """
     hiddenarr = np.array(hiddenstates)
+    hiddenarr = hiddenarr[:,neuronid]
     fig, ax = plt.subplots(1,1,figsize=(20,8))
-    ax.matshow(hiddenarr, cmap = plt.get_cmap("Reds"), aspect="auto")
-    ax.set_yticks(np.arange(len(text)))
-    ax.set_yticklabels(text)
-    plt.yticks(fontsize = 7, rotation = -30)
-    plt.show()
+    ax.matshow(hiddenarr.T, cmap = plt.get_cmap("RdBu"), aspect="auto")
+
+    for i in range(hiddenarr.shape[0]):
+        ax.text(i, 0, text[i], va='center', ha='center')
+    # ax.set_yticks(np.arange(len(text)))
+    # ax.set_yticklabels(text)
+    # plt.yticks(fontsize = 7, rotation = -30)
+    plt.plot()
 
 
-seq_length = 150
+NEWTEXT = False     # If you want to generate a new text, or load a text file
+seq_length = 100
 i = 0
 text = []
 hiddenlist = []
 h = updatehidden(data, hprev)
 inputs = char_to_ix[data[-1]]   # Setting input as last char of input string
 
-while i <= seq_length:
-    # Perform RNN prediction and append to list containing text
-    h, inputs = charpred(h, inputs)
-    text.append(ix_to_char[inputs])
-    hiddenlist.append(h)
-    i += 1
+if NEWTEXT:
+    while i <= seq_length:
+        # Perform RNN prediction and append to list containing text
+        h, inputs = charpred(h, inputs)
+        text.append(ix_to_char[inputs])
+        hiddenlist.append(h)
+        i += 1
 
-txtout = ''.join(text)
-print("Here thy new Shakespear\n ", txtout, "\n----------")
+    txtout = ''.join(text)
+    print("Here thy new Shakespear\n ", txtout, "\n----------")
+else:
+    hiddennp = np.load('hiddenlist.npy')
+    hiddenlist = hiddennp.tolist()
 
-neuronvisual(text, hiddenlist)
+    with open('file.txt') as f:
+        contents = f.read()
+        text.append(contents)
+
+    text = [ch for ch in text[0]]
+
+
+neuronvisual(text, hiddenlist, 159)
+
+# saving hidden neuron and text lists
+np.save("hiddenlist", np.array(hiddenlist))
+with open('file.txt', 'w') as f:
+    for char in text:
+        f.write("%s" %char)
+
+plt.show()
