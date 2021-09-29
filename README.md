@@ -46,8 +46,10 @@ Few interesting neurons that track specific characteristics are shown below. The
 ![alt text](figures/159.png "Beginning of word")
 The above image shows a specific neuron that is firing at the start of each word. 
 
+
 ![alt text](figures/43.png "Tracking names")
 This neuron is shown to fire when a name has encountered. Secifically, it was noted that this neuron is attentive to names in block capitals, usually to show the character and their lines.
+
 
 ![alt text](figures/73.png "inside a word")
 This neuron also seems to be activated when it is inside a word. 
