@@ -70,11 +70,12 @@ def neuronvisual(text, hiddenstates, neuronid):
     """
     :param text: list of input texts to the RNN model
     :param hiddenstates: Corresponding hidden states for the character
-    :return: plot of neurons firing for each character
+    :param neuronid: chosen neuron for visualization
+    :return: plot of chosen neuron firing for each character
     """
     hiddenarr = np.array(hiddenstates)
     hiddenarr = hiddenarr[:,neuronid]
-    fig, ax = plt.subplots(1,1,figsize=(20,8))
+    fig, ax = plt.subplots(1,1,figsize=(20,2))
     ax.matshow(hiddenarr.T, cmap = plt.get_cmap("RdBu"), aspect="auto")
 
     for i in range(hiddenarr.shape[0]):
@@ -115,6 +116,7 @@ else:
 
 
 neuronvisual(text, hiddenlist, 159)
+plt.show()
 
 # saving hidden neuron and text lists
 np.save("hiddenlist", np.array(hiddenlist))
@@ -122,4 +124,3 @@ with open('file.txt', 'w') as f:
     for char in text:
         f.write("%s" %char)
 
-plt.show()

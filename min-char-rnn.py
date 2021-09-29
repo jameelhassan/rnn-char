@@ -13,7 +13,7 @@ char_to_ix = { ch:i for i,ch in enumerate(chars) }
 ix_to_char = { i:ch for i,ch in enumerate(chars) }
 
 # hyperparameters
-hidden_size = 100 # size of hidden layer of neurons
+hidden_size = 250 # size of hidden layer of neurons
 seq_length = 25 # number of steps to unroll the RNN for
 learning_rate = 1e-1
 
@@ -23,6 +23,16 @@ Whh = np.random.randn(hidden_size, hidden_size)*0.01 # hidden to hidden
 Why = np.random.randn(vocab_size, hidden_size)*0.01 # hidden to output
 bh = np.zeros((hidden_size, 1)) # hidden bias
 by = np.zeros((vocab_size, 1)) # output bias
+
+# To load using saved weights uncomment lines below and comment off lines 92,93
+# a = np.load('char-rnn-snapshot.npz', allow_pickle=True)  # load from provided weights
+# Wxh = a["Wxh"]  # input to hidden
+# Whh = a["Whh"]  # hidden to hidden
+# Why = a["Why"]  # hidden to output
+# bh = a["bh"]    # hidden bias
+# by = a["by"]    # output bias
+# mWxh, mWhh, mWhy = a["mWxh"], a["mWhh"], a["mWhy"]
+# mbh, mby = a["mbh"], a["mby"]
 
 def lossFun(inputs, targets, hprev):
   """
@@ -81,8 +91,9 @@ def sample(h, seed_ix, n):
 n, p = 0, 0
 mWxh, mWhh, mWhy = np.zeros_like(Wxh), np.zeros_like(Whh), np.zeros_like(Why)
 mbh, mby = np.zeros_like(bh), np.zeros_like(by) # memory variables for Adagrad
+
 smooth_loss = -np.log(1.0/vocab_size)*seq_length # loss at iteration 0
-while True:
+while n<4e5:
   # prepare inputs (we're sweeping from left to right in steps seq_length long)
   if p+seq_length+1 >= len(data) or n == 0:
     hprev = np.zeros((hidden_size,1)) # reset RNN memory
@@ -110,3 +121,6 @@ while True:
 
   p += seq_length # move data pointer
   n += 1 # iteration counter
+
+np.savez('char-rnn-new.npz', Wxh = Wxh, Whh = Whh, Why = Why, bh = bh, by = by, \
+         mWxh = mWxh, mWhh = mWhh, mWhy = mWhy, mbh = mbh, mby = mby)
